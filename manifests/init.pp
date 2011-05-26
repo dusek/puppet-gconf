@@ -10,6 +10,7 @@ define gconf_list($value, $ltype="string", $source="/etc/gconf/gconf.xml.default
 	exec {"set $name to $values":
 		command => "gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults -s --type=list --list-type=$ltype $name [$values]",
 		path => "/usr/bin"
+		onlyif => "test \"[$value]\" != \"`gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults -g $name`\"",
 	}
 }
 
