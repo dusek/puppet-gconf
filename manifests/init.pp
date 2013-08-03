@@ -1,16 +1,16 @@
 define gconf_value($value, $type="string", $source="/etc/gconf/gconf.xml.defaults") {
 	exec {"set $name to $value":
-		command => "gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults -s --type=$type $name \"$value\"",
+		command => "gconftool-2 --direct --config-source=xml:readwrite:$source -s --type=$type $name \"$value\"",
 		path => "/usr/bin",
-		onlyif => "test \"$value\" != \"`gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults -g $name`\"",
+		onlyif => "test \"$value\" != \"`gconftool-2 --direct --config-source=xml:readwrite:$source -g $name`\"",
 	}
 }
 
 define gconf_list($value, $ltype="string", $source="/etc/gconf/gconf.xml.defaults") {
 	exec {"set $name to $value":
-		command => "gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults -s --type=list --list-type=$ltype $name [$value]",
+		command => "gconftool-2 --direct --config-source=xml:readwrite:$source -s --type=list --list-type=$ltype $name [$value]",
 		path => "/usr/bin",
-		onlyif => "test \"[$value]\" != \"`gconftool-2 --direct --config-source=xml:readwrite:/etc/gconf/gconf.xml.defaults -g $name`\"",
+		onlyif => "test \"[$value]\" != \"`gconftool-2 --direct --config-source=xml:readwrite:$source -g $name`\"",
 	}
 }
 
